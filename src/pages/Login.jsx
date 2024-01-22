@@ -27,7 +27,9 @@ const Login = () => {
                 icon: "success"
             })
             setLoading(false)
-            navigate('/')
+            console.log(data.user);
+            localStorage.setItem('userData', JSON.stringify(data.user))
+            navigate('/dashboard')
             setEmail('')
             setPassword('')
         } catch (error) {
@@ -36,7 +38,7 @@ const Login = () => {
                 text: 'Please try again',
                 icon: "error"
             })
-            navigate('/signUp')
+            navigate('/login')
         }
     }
 

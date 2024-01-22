@@ -1,9 +1,13 @@
+import { useContext } from "react";
 import { Outlet } from "react-router-dom";
+import { UserContext } from "../../context/UserProvider";
 
 const Dashboard = () => {
+    const { userData } = useContext(UserContext)
+    console.log(userData);
     return (
         <div>
-            <label htmlFor="my-drawer-2" className="btn btn-primary drawer-button lg:hidden">Dashboard</label>
+            <label htmlFor="my-drawer-2" className="btn btn-primary drawer-button lg:hidden">{userData.role ? 'House Owner Dashboard' : 'House Renter Dashboard'}</label>
             {/* Drawer for dashboard */}
             <div className="drawer lg:drawer-open">
                 <input id="my-drawer-2" type="checkbox" className="drawer-toggle" />
