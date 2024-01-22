@@ -3,6 +3,7 @@ import Swal from 'sweetalert2'
 import withReactContent from 'sweetalert2-react-content'
 import { useState } from 'react';
 import axios from 'axios';
+import Loading from '../components/Loading';
 
 const SignUp = () => {
     const MySwal = withReactContent(Swal)
@@ -38,7 +39,7 @@ const SignUp = () => {
     }
 
     if (loading) {
-        return <span className="loading loading-ring loading-lg"></span>
+        return <Loading />
     }
     return (
         <div className="hero min-h-screen bg-base-200">
@@ -114,6 +115,10 @@ const SignUp = () => {
                             <button className="btn btn-primary">Sign up</button>
                         </div>
                     </form>
+                    <p>Already signed up?
+                        go to <Link to='/login' className='btn btn-link'>Login</Link>
+
+                    </p>
                 </div>
             </div>
         </div>
