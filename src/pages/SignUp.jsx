@@ -1,81 +1,119 @@
-import { Link } from 'react-router-dom';
-import logo from '../assets/react.svg'
+import { Link, useNavigate } from 'react-router-dom';
+import Swal from 'sweetalert2'
+import withReactContent from 'sweetalert2-react-content'
+import { useState } from 'react';
+import axios from 'axios';
 
 const SignUp = () => {
-    const handleSubmit = () => {
+    const MySwal = withReactContent(Swal)
+    const [name, setName] = useState('')
+    const [email, setEmail] = useState('')
+    const [phone, setPhone] = useState()
+    const [role, setRole] = useState(0)
+    const [password, setPassword] = useState('')
+    const [loading, setLoading] = useState(false)
+    const navigate = useNavigate()
 
+
+    const handleSubmit = async (e) => {
+        e.preventDefault()
+        setLoading(true)
+        const { data } = await axios.post('http://localhost:5000/api/v1/users/signup', {
+            name,
+            role,
+            email,
+            password,
+            phone
+        })
+        MySwal.fire({
+            title: 'Signed up successfully',
+            icon: "success"
+        })
+        setLoading(false)
+        navigate('/login')
+        setName('')
+        setEmail('')
+        setPassword('')
+        setPhone('')
+    }
+
+    if (loading) {
+        return <span className="loading loading-ring loading-lg"></span>
     }
     return (
-        <div className="relative py-16 bg-gradient-to-br from-sky-50 to-gray-200">
-            <div className="relative container m-auto px-6 text-gray-500 md:px-12 xl:px-40">
-                <div className="m-auto md:w-8/12 lg:w-6/12 xl:w-6/12">
-                    <div className="rounded-xl bg-white shadow-xl">
-                        <div className="p-6 sm:p-16">
-                            <div className="space-y-4">
-                                <img src={logo} loading="lazy" className="w-10" alt="logo" />
-                                <h2 className="mb-8 text-2xl text-cyan-900 font-bold">Sign up to unlock the <br /> best of Dream Colleges.</h2>
-                            </div>
-                            <form onSubmit={handleSubmit}>
-                                <div className="mt-16 grid space-y-4">
-                                    <label className="font-semibold text-xs" >Username or Email</label>
-                                    <input
+        <div className="hero min-h-screen bg-base-200">
+            <div className="hero-content flex-col lg:flex-row-reverse">
+                <div className="text-center lg:text-left">
+                    <h1 className="text-5xl font-bold">Sign up now!</h1>
 
-                                        className="flex items-center group h-12 px-6 border-2 border-gray-300 rounded-full transition duration-300 hover:border-blue-400 focus:bg-blue-50 active:bg-blue-100" type="email" />
+                </div>
+                <div className="card shrink-0 w-full max-w-sm shadow-2xl bg-base-100">
+                    <form className="card-body" onSubmit={handleSubmit}>
 
+                        {/* Status check */}
 
+                        {/* <div className="dropdown dropdown-bottom">
+                            <div tabIndex={0} role="button" className="btn m-1">Sign up as</div>
+                            <ul tabIndex={0} className="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-52"
+                                onChange={(e) => setRole(e.target.value)}
+                            >
+                                <li><a>House Owner</a></li>
+                                <li><a>House Renter</a></li>
+                            </ul>
+                        </div> */}
+                        <div className='flex flex-col justify-center'>
+                            <label htmlFor="">Role</label>
+                            <select name="" id="" defaultValue='false' value={role} onChange={(e) => setRole(e.target.value)}>
+                                <option value="">Select role</option>
+                                <option value="0">House Owner</option>
+                                <option value="1">House Renter</option>
+                            </select>
 
-                                    <div className="relative w-full">
-                                        <div className="absolute inset-y-0 right-1 flex items-center px-2 top-6 text-2xl cursor-pointer">
-                                            {/* Show password icon */}
-                                            {/* <div onClick={togglePassword}>
-                                            {showPassword ? (<AiFillEyeInvisible />) : (<AiFillEye />)}
-                                        </div> */}
-                                        </div>
-                                        <label className="font-semibold text-xs mt-3" >Password</label>
-                                        <input
-
-                                            className=" group w-full py-3 px-3 border-2 border-gray-300 rounded-full transition duration-300 hover:border-blue-400 focus:bg-blue-50 active:bg-blue-100"
-                                        // type={showPassword ? "text" : "password"} 
-                                        />
-                                    </div>
-
-                                    <label className="font-semibold text-xs mt-3" >Confirm password</label>
-                                    <input
-
-                                        className="flex items-center group h-12 px-6 border-2 border-gray-300 rounded-full transition duration-300 hover:border-blue-400 focus:bg-blue-50 active:bg-blue-100" type="password" />
-
-                                    <input className='flex items-center justify-center group h-12 px-6 border-2 border-gray-300 rounded-full transition duration-300  hover:text-black text-white font-semibold bg-gray-800 hover:bg-gray-300 cursor-pointer' type="submit" value="Sign Up" />
-
-                                    <p>Or use any of these...</p>
-
-                                    <button
-                                        className="group h-12 px-6 border-2 border-gray-300 rounded-full transition duration-300 hover:border-blue-400 focus:bg-blue-50 active:bg-blue-100">
-
-                                        <div className="relative flex items-center space-x-4 justify-center">
-                                            <img src="https://tailus.io/sources/blocks/social/preview/images/google.svg" className="absolute left-0 w-5" alt="google logo" />
-                                            <span className="block w-max font-semibold tracking-wide text-gray-700 text-sm transition duration-300 group-hover:text-blue-600 sm:text-base">Continue with Google</span>
-                                        </div>
-                                    </button>
-
-                                    <button
-                                        className="group h-12 px-6 border-2 border-gray-300 rounded-full transition duration-300 
-                         hover:border-blue-400 focus:bg-blue-50 active:bg-blue-100">
-                                        <div className="relative flex items-center space-x-4 justify-center">
-                                            <img src="https://upload.wikimedia.org/wikipedia/en/0/04/Facebook_f_logo_%282021%29.svg" className="absolute left-0 w-5" alt="Facebook logo" />
-                                            <span className="block w-max font-semibold tracking-wide text-gray-700 text-sm transition duration-300 group-hover:text-blue-600 sm:text-base">Continue with Facebook</span>
-                                        </div>
-                                    </button>
-                                </div>
-                            </form>
-
-
-                            <p className='mt-6 font-semibold'>Already have an account?
-                                <Link className='text-blue-500 ml-3' to={'/login'}>Login</Link>
-                            </p>
-                            <p className='py-6 '>Forgotten Password?
-                                <Link className='text-blue-500 ml-3' to={'/forgot-password'}>Reset password</Link></p>
                         </div>
-                    </div>
+                        <div className="form-control">
+                            <label className="label">
+                                <span className="label-text">Name</span>
+                            </label>
+                            <input type="text" placeholder="name" className="input input-bordered"
+                                value={name}
+                                onChange={(e) => setName(e.target.value)}
+                                required />
+                        </div>
+                        <div className="form-control">
+                            <label className="label">
+                                <span className="label-text">Email</span>
+                            </label>
+                            <input type="email" placeholder="email" className="input input-bordered"
+                                value={email}
+                                onChange={(e) => setEmail(e.target.value)}
+                                required />
+                        </div>
+                        <div className="form-control">
+                            <label className="label">
+                                <span className="label-text">Password</span>
+                            </label>
+                            <input type="password" placeholder="password" className="input input-bordered"
+                                value={password}
+                                onChange={(e) => setPassword(e.target.value)}
+                                required />
+                            <label className="label">
+                                <a href="#" className="label-text-alt link link-hover">Forgot password?</a>
+                            </label>
+                        </div>
+                        <div className="form-control">
+                            <label className="label">
+                                <span className="label-text">Phone</span>
+                            </label>
+                            <input type="number" placeholder="phone" className="input input-bordered"
+                                value={phone}
+                                onChange={(e) => setPhone(e.target.value)}
+                                required />
+
+                        </div>
+                        <div className="form-control mt-6">
+                            <button className="btn btn-primary">Sign up</button>
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>

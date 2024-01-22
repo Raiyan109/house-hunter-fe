@@ -5,27 +5,45 @@ import { Link } from 'react-router-dom'
 const Navbar = () => {
     return (
         <div>
-            <header className="text-gray-600 body-font">
-                <div className="container mx-auto flex flex-wrap p-5 flex-col md:flex-row items-center">
-                    <a className="flex title-font font-medium items-center text-gray-900 mb-4 md:mb-0">
-                        {/* <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" className="w-10 h-10 text-white p-2 bg-indigo-500 rounded-full" viewBox="0 0 24 24">
-                            <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"></path>
-                        </svg> */}
-                        <span className="ml-3 text-xl">AirBnb</span>
-                    </a>
-                    <nav className="md:ml-auto md:mr-auto flex flex-wrap items-center text-base justify-center">
-                        <a className="mr-5 hover:text-gray-900">Any where</a>
-                        <a className="mr-5 hover:text-gray-900">Any week</a>
-                        <a className="mr-5 hover:text-gray-900">Add guest</a>
-                        <div><BiSearch /></div>
-
-                    </nav>
-                    <div className='flex justify-center items-center gap-2 border-gray-200 shadow-md p-3 rounded-xl'>
-                        <div><GiHamburgerMenu /></div>
-                        <Link to='/login'><BsFillPersonFill /></Link>
+            <div className="navbar bg-base-100">
+                <div className="navbar-start">
+                    <div className="dropdown">
+                        <div tabIndex={0} role="button" className="btn btn-ghost lg:hidden">
+                            <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h8m-8 6h16" /></svg>
+                        </div>
+                        <ul tabIndex={0} className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52">
+                            <li><a>Item 1</a></li>
+                            <li>
+                                <a>Parent</a>
+                                <ul className="p-2">
+                                    <li><a>Submenu 1</a></li>
+                                    <li><a>Submenu 2</a></li>
+                                </ul>
+                            </li>
+                            <li><a>Item 3</a></li>
+                        </ul>
                     </div>
+                    <a className="btn btn-ghost text-xl">daisyUI</a>
                 </div>
-            </header>
+                <div className="navbar-center hidden lg:flex">
+                    <ul className="menu menu-horizontal px-1">
+                        <li><a>Item 1</a></li>
+                        <li>
+                            <details>
+                                <summary>Parent</summary>
+                                <ul className="p-2">
+                                    <li><a>Submenu 1</a></li>
+                                    <li><a>Submenu 2</a></li>
+                                </ul>
+                            </details>
+                        </li>
+                        <li><a>Item 3</a></li>
+                    </ul>
+                </div>
+                <div className="navbar-end">
+                    <Link to='/signUp' className="btn btn-secondary">Sign up</Link>
+                </div>
+            </div>
         </div>
     );
 };
