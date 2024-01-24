@@ -34,7 +34,7 @@ const Navbar = () => {
                         </ul>
                     </div> */}
 
-                    <a className="btn btn-ghost text-xl">House Hunter</a>
+                    <Link to='/' className="btn btn-ghost text-xl">House Hunter</Link>
 
                 </div>
 

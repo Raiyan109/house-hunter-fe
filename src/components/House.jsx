@@ -1,5 +1,10 @@
+import { useContext } from "react";
+import { UserContext } from "../context/UserProvider";
+import { Link } from "react-router-dom";
 
 const House = ({ house }) => {
+    const { user } = useContext(UserContext)
+    console.log(user?.user);
 
     return (
         <div>
@@ -38,10 +43,15 @@ const House = ({ house }) => {
                     </div>
                 </div>
                 <hr />
-                <div className='flex justify-between items-center group-hover:text-white/75'>
-                    <button>View Details</button>
-                    {/* <img src={arrow} alt="" /> */}
-                </div>
+                {!user?.user.role &&
+                    <Link to='/book-new'>
+                        <div className='flex items-center group-hover:text-primary group-hover:font-bold group-hover:bg-neutral rounded-full w-32 text-center px-2 py-1 mt-3'>
+                            <button>Book House</button>
+                            {/* <img src={arrow} alt="" /> */}
+                        </div>
+                    </Link>
+                }
+
             </div>
         </div>
     );

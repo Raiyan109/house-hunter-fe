@@ -1,13 +1,15 @@
 import { useContext } from "react";
 import { Link, Outlet } from "react-router-dom";
 import { UserContext } from "../../context/UserProvider";
+import Navbar from "../../components/Navbar";
 
 const Dashboard = () => {
     const { user } = useContext(UserContext)
     console.log(user?.user);
     return (
         <div>
-            <label htmlFor="my-drawer-2" className="btn btn-primary drawer-button lg:hidden">{user?.user.role ? user?.user?.name + ' House Owner Dashboard' : 'House Renter Dashboard'}</label>
+            <Navbar />
+            <label htmlFor="my-drawer-2" className="btn btn-primary drawer-button lg:hidden">{user?.user.role ? user?.user?.name + ' House Owner Dashboard' : user?.user?.name + ' House Renter Dashboard'}</label>
             {/* Drawer for dashboard */}
             <div className="drawer lg:drawer-open">
                 <input id="my-drawer-2" type="checkbox" className="drawer-toggle" />
@@ -29,6 +31,15 @@ const Dashboard = () => {
                                 <li>
                                     <Link to='/add-houses'>Add New House</Link>
                                 </li>
+                            </div>
+                        )}
+                        {/* Renter Routes */}
+                        {!user?.user?.role && (
+                            <div>
+                                <li>
+                                    <Link to='/manage-bookings'>Manage Bookings</Link>
+                                </li>
+
                             </div>
                         )}
                     </ul>
