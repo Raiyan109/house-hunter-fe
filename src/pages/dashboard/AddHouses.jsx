@@ -164,8 +164,8 @@ const AddHouses = () => {
                                     value={phone}
                                     onChange={(e) => setPhone(e.target.value)}
                                     placeholder="phone"
-                                    pattern="/(^(\+88|0088)?(01){1}[3456789]{1}(\d){8})$/"
-                                    title="Must be a bangladeshi number"
+                                    // pattern="/(^(\+8801|8801|01|008801))[1|3-9]{1}(\d){8}$/"
+                                    // title="Must be a bangladeshi number"
                                     className="input input-bordered" required />
                             </div>
                             <div className="form-control">
