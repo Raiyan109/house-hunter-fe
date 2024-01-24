@@ -4,11 +4,11 @@ export const UserContext = createContext()
 
 const UserProvider = ({ children }) => {
     const user = JSON.parse(localStorage.getItem('userData'))
-    const userData = user
+
     const value = {
-        userData
+        user
     }
-    // console.log(value);
+    console.log(user);
     return (
         <UserContext.Provider value={value}>
             {children}

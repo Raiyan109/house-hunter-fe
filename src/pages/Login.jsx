@@ -5,6 +5,7 @@ import withReactContent from 'sweetalert2-react-content'
 import { useState } from "react";
 import axios from "axios";
 import Loading from "../components/Loading";
+import Navbar from "../components/Navbar";
 
 
 const Login = () => {
@@ -27,8 +28,8 @@ const Login = () => {
                 icon: "success"
             })
             setLoading(false)
-            console.log(data.user);
-            localStorage.setItem('userData', JSON.stringify(data.user))
+            console.log(data);
+            localStorage.setItem('userData', JSON.stringify(data))
             navigate('/dashboard')
             setEmail('')
             setPassword('')
@@ -47,6 +48,7 @@ const Login = () => {
     }
     return (
         <>
+            <Navbar />
             <div className="hero min-h-screen bg-base-200">
                 <div className="hero-content flex-col lg:flex-row-reverse">
                     <div className="text-center lg:text-left">

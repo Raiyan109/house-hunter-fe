@@ -1,8 +1,18 @@
 import { BiSearch } from 'react-icons/bi'
 import { GiHamburgerMenu } from 'react-icons/gi'
 import { BsFillPersonFill } from 'react-icons/bs'
-import { Link, Outlet } from 'react-router-dom'
+import { Link, Outlet, useNavigate } from 'react-router-dom'
+import { useContext } from 'react';
+import { UserContext } from '../context/UserProvider';
+
 const Navbar = () => {
+    const { user } = useContext(UserContext)
+    console.log(user);
+    const navigate = useNavigate()
+    const signOut = () => {
+        localStorage.removeItem('userData')
+        navigate('/login')
+    }
     return (
         <div>
             <div className="navbar bg-base-100">
@@ -47,8 +57,10 @@ const Navbar = () => {
                 </div> */}
                 <div className="navbar-end">
                     <div className='space-x-3'>
+                        {user?.user && <button className='btn btn-outline' onClick={signOut}>Sign out</button>}
                         <Link to='/dashboard' className="btn btn-neutral">Dashboard</Link>
                         <Link to='/signUp' className="btn btn-secondary">Sign up</Link>
+                        <Link to='/login' className="btn btn-secondary">Login</Link>
                     </div>
                 </div>
             </div>

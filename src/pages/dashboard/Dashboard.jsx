@@ -1,13 +1,13 @@
 import { useContext } from "react";
-import { Outlet } from "react-router-dom";
+import { Link, Outlet } from "react-router-dom";
 import { UserContext } from "../../context/UserProvider";
 
 const Dashboard = () => {
-    const { userData } = useContext(UserContext)
-    console.log(userData);
+    const { user } = useContext(UserContext)
+    console.log(user?.user);
     return (
         <div>
-            <label htmlFor="my-drawer-2" className="btn btn-primary drawer-button lg:hidden">{userData.role ? 'House Owner Dashboard' : 'House Renter Dashboard'}</label>
+            <label htmlFor="my-drawer-2" className="btn btn-primary drawer-button lg:hidden">{user?.user.role ? user?.user?.name + ' House Owner Dashboard' : 'House Renter Dashboard'}</label>
             {/* Drawer for dashboard */}
             <div className="drawer lg:drawer-open">
                 <input id="my-drawer-2" type="checkbox" className="drawer-toggle" />
@@ -20,8 +20,17 @@ const Dashboard = () => {
                     <label htmlFor="my-drawer-2" aria-label="close sidebar" className="drawer-overlay"></label>
                     <ul className="menu p-4 w-80 min-h-full bg-base-200 text-base-content">
                         {/* Sidebar content here */}
-                        <li><a>Sidebar Item 1</a></li>
-                        <li><a>Sidebar Item 2</a></li>
+                        {/* House Owner Routes */}
+                        {user?.user?.role && (
+                            <div>
+                                <li>
+                                    <Link to='/listed-houses'>Listed Houses</Link>
+                                </li>
+                                <li>
+                                    <Link to='/add-houses'>Add New House</Link>
+                                </li>
+                            </div>
+                        )}
                     </ul>
 
                 </div>
