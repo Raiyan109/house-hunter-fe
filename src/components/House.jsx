@@ -1,10 +1,15 @@
 import { useContext } from "react";
 import { UserContext } from "../context/UserProvider";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const House = ({ house }) => {
     const { user } = useContext(UserContext)
     console.log(user?.user);
+    const navigate = useNavigate()
+
+    const goToHouseBookingPage = () => {
+        navigate(`/house/${house._id}`)
+    }
 
     return (
         <div>
@@ -44,12 +49,12 @@ const House = ({ house }) => {
                 </div>
                 <hr />
                 {!user?.user.role &&
-                    <Link to='/book-new'>
-                        <div className='flex items-center group-hover:text-primary group-hover:font-bold group-hover:bg-neutral rounded-full w-32 text-center px-2 py-1 mt-3'>
-                            <button>Book House</button>
-                            {/* <img src={arrow} alt="" /> */}
-                        </div>
-                    </Link>
+                    // <Link to='/book-new'>
+                    <div className='flex items-center group-hover:text-primary group-hover:font-bold group-hover:bg-neutral rounded-full w-32 text-center px-2 py-1 mt-3' onClick={goToHouseBookingPage}>
+                        <button>Book House</button>
+                        {/* <img src={arrow} alt="" /> */}
+                    </div>
+                    // </Link>
                 }
 
             </div>

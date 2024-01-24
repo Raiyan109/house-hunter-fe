@@ -7,7 +7,7 @@ import { UserContext } from '../context/UserProvider';
 
 const Navbar = () => {
     const { user } = useContext(UserContext)
-    console.log(user);
+    // console.log(user);
     const navigate = useNavigate()
     const signOut = () => {
         localStorage.removeItem('userData')

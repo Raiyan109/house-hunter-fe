@@ -1,13 +1,13 @@
 import axios from "axios";
-import { useContext, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useContext, useEffect, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 import Swal from 'sweetalert2'
 import withReactContent from 'sweetalert2-react-content'
-import { UserContext } from "../../context/UserProvider";
-import Loading from "../../components/Loading";
+import { UserContext } from "../context/UserProvider";
+import Loading from "./Loading";
 
-
-const BookNew = () => {
+const HouseDetail = () => {
+    const [house, setHouse] = useState([])
     const [loading, setLoading] = useState(false)
     const [name, setName] = useState('')
     const [email, setEmail] = useState('')
@@ -16,6 +16,19 @@ const BookNew = () => {
     const MySwal = withReactContent(Swal)
     const { user } = useContext(UserContext)
     console.log(user?.user);
+    const { id } = useParams()
+    const base_url = 'http://localhost:5000/api/v1/houses'
+    useEffect(() => {
+        const getASingleHouse = async () => {
+            const { data } = await axios.get(`${base_url}/${id}`)
+            setHouse(data.data);
+            console.log(data.data.name);
+        }
+        getASingleHouse()
+
+    }, [id])
+
+
 
     const handleSubmit = async (e) => {
         e.preventDefault()
@@ -24,7 +37,8 @@ const BookNew = () => {
             name: user?.user?.name,
             email: user?.user?.email,
             phone: user?.user?.phone,
-            bookedBy: user?.user?._id
+            bookedBy: user?.user?._id,
+            bookingsList: house.name
         }, {
             headers: {
                 "Authorization": `Bearer ${user?.access_token}`
@@ -46,7 +60,7 @@ const BookNew = () => {
         <div className="hero min-h-screen bg-base-200">
             <div className="hero-content flex-col lg:flex-row-reverse">
                 <div className="text-center lg:text-left">
-                    <h1 className="text-5xl font-bold">Book now</h1>
+                    <h1 className="text-5xl font-bold">Book <span className="text-primary">{house.name}</span></h1>
 
                 </div>
                 <div className="card shrink-0 w-full max-w-sm shadow-2xl bg-base-100">
@@ -107,4 +121,4 @@ const BookNew = () => {
     );
 };
 
-export default BookNew;
+export default HouseDetail;

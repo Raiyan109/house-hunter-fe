@@ -8,6 +8,7 @@ import ListedHouses from "../pages/dashboard/ListedHouses";
 import AddHouses from "../pages/dashboard/AddHouses";
 import ManageBookings from "../pages/dashboard/ManageBookings";
 import BookNew from "../pages/dashboard/BookNew";
+import HouseDetail from "../components/HouseDetail";
 
 const routes = createBrowserRouter([
     {
@@ -45,6 +46,10 @@ const routes = createBrowserRouter([
     {
         path: '/book-new',
         element: <BookNew />
+    },
+    {
+        path: '/house/:id',
+        element: <HouseDetail />
     },
 ])
 
