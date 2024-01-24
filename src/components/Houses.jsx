@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { useEffect, useState } from 'react';
 import House from './House';
-
+import { MdKeyboardDoubleArrowLeft, MdKeyboardDoubleArrowRight } from "react-icons/md";
 const Houses = () => {
     const [houses, setHouses] = useState([])
     const [search, setSearch] = useState('')
@@ -11,6 +11,8 @@ const Houses = () => {
     const [size, setSize] = useState('')
     const [availability, setAvailability] = useState('')
     const [rent, setRent] = useState('')
+    const [page, setPage] = useState(1);
+    const [pageCount, setPageCount] = useState(0);
 
     const base_url = 'http://localhost:5000/api/v1/houses'
 
@@ -18,14 +20,30 @@ const Houses = () => {
 
     useEffect(() => {
         const getAllHouses = async () => {
-            const { data } = await axios.get(`${base_url}?search=${search}&city=${city}&bedrooms=${bed}&bathrooms=${bath}&size=${size}&rent=${rent}`)
+            const { data } = await axios.get(`${base_url}?search=${search}&city=${city}&bedrooms=${bed}&bathrooms=${bath}&size=${size}&rent=${rent}&page=${page}`)
             setHouses(data.data);
+            setPageCount(data.pagination.pageCount)
             console.log(data);
         }
         getAllHouses()
-    }, [search, city, bed, bath, size, rent])
+    }, [search, city, bed, bath, size, rent, page])
 
+    // pagination
+    // handle prev btn
+    const handlePrevious = () => {
+        setPage(() => {
+            if (page === 1) return page;
+            return page - 1
+        })
+    }
 
+    // handle next btn
+    const handleNext = () => {
+        setPage(() => {
+            if (page === pageCount) return page;
+            return page + 1
+        })
+    }
 
     const handleSubmit = (e) => {
         e.preventDefault()
@@ -160,8 +178,32 @@ const Houses = () => {
                     }
                 </div>
 
-            </div>
 
+            </div>
+            <div className='flex justify-center items-center mt-10'>
+                {/* Pagination */}
+                {
+                    pageCount > 0 ?
+                        <div className="pagination_div d-flex justify-content-end mx-5">
+                            <div className='flex gap-4 '>
+                                <MdKeyboardDoubleArrowLeft onClick={() => handlePrevious()} className='bg-primary w-7 h-7 cursor-pointer' />
+                                {
+                                    Array(pageCount).fill(null).map((element, index) => {
+                                        return (
+                                            <>
+                                                <div key={index}
+                                                    className='bg-secondary w-7 h-7 cursor-pointer flex justify-center items-center'
+                                                    //   active={page === index + 1 ? true : false}
+                                                    onClick={() => setPage(index + 1)}>{index + 1}</div>
+                                            </>
+                                        )
+                                    })
+                                }
+                                <MdKeyboardDoubleArrowRight onClick={() => handleNext()} className='bg-primary w-7 h-7 cursor-pointer' />
+                            </div>
+                        </div> : ""
+                }
+            </div>
         </div>
     );
 };
