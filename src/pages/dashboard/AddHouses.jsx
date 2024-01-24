@@ -19,16 +19,26 @@ const AddHouses = () => {
     const [phone, setPhone] = useState('')
     const [desc, setDesc] = useState('')
     const [loading, setLoading] = useState(false)
+    const [error, setError] = useState(false)
     const navigate = useNavigate()
     const MySwal = withReactContent(Swal)
     const { user } = useContext(UserContext)
-    console.log(user.access_token);
+    const pattern = new RegExp(/^\d{1,10}$/);
+
 
     const handleSubmit = async (e) => {
         e.preventDefault()
+        // const pattern = /^\d{1,10}$/;
+        // console.log(pattern);
+        // if (!pattern.test(e.target.value)) {
+        //     setError(true)
+        // } else {
+        //     setError(false)
+        // }
+        // console.log(error);
         setLoading(true)
         try {
-            const { data } = await axios.post('http://localhost:5000/api/v1/houses/create', {
+            const { data } = await axios.post('https://house-hunter-be-2.vercel.app/api/v1/houses/create', {
                 name,
                 address,
                 city,
@@ -53,6 +63,7 @@ const AddHouses = () => {
             navigate('/listed-houses')
         } catch (error) {
             console.log(error.message);
+            setLoading(false)
             MySwal.fire({
                 title: error.message,
                 icon: "error"
@@ -160,13 +171,24 @@ const AddHouses = () => {
                                 <label className="label">
                                     <span className="label-text">Phone</span>
                                 </label>
-                                <input type="text"
+                                <input type="number"
                                     value={phone}
-                                    onChange={(e) => setPhone(e.target.value)}
+                                    onChange={(e) => {
+                                        setPhone(parseInt(e.target.value))
+                                        if (!pattern.test(e.target.value)) {
+                                            setError(true)
+                                        } else {
+                                            setError(false)
+                                        }
+                                    }}
                                     placeholder="phone"
                                     // pattern="/(^(\+8801|8801|01|008801))[1|3-9]{1}(\d){8}$/"
                                     // title="Must be a bangladeshi number"
                                     className="input input-bordered" required />
+                                {phone && <h3 className="text-red-700">
+                                    Your Mobile Number is:
+                                    {error ? "Invalid" : "+880" + phone}
+                                </h3>}
                             </div>
                             <div className="form-control">
                                 <label className="label">

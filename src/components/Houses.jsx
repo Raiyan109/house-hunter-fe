@@ -14,7 +14,7 @@ const Houses = () => {
     const [page, setPage] = useState(1);
     const [pageCount, setPageCount] = useState(0);
 
-    const base_url = 'https://house-hunter-be-raiyan109.vercel.app/api/v1/houses'
+    const base_url = 'https://house-hunter-be-2.vercel.app/api/v1/houses'
 
 
 
